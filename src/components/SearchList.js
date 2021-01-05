@@ -23,51 +23,48 @@ const useStyles = makeStyles((theme) => ({
 export default function SearchList(props)  {
     console.log(props)
     const classes = useStyles();
-    const users = props.data.map((e) => {
-        return (
-            <List className={classes.root}>
-                <ListItem onClick={() => props.onItemSelect(e.id)}>
-                    <ListItemIcon>
-                    {
-                        e.profile_image ? <Avatar src={e.profile_image} /> : <Avatar alt="Remy Sharp" />
-                    }
-                    </ListItemIcon>
-                    <ListItemText id={e.id} primary={e.name} />
-                </ListItem>
-                <Divider variant="inset" component="li" />
-            </List>
-        )
-    });
-
-    const trees = props.data.map((e) => {
-        return (
-            <List className={classes.root}>
-                <ListItem onClick={() => props.onItemSelect(e.id)}>
-                    <ListItemText
-                        primary={e.name.toUpperCase()}
-                        secondary={
-                            <React.Fragment>
-                            <Typography
-                                component="span"
-                                variant="body2"
-                                className={classes.inline}
-                                color="textPrimary"
-                            >
-                            Sapling No : {e.sapling_id.toUpperCase()}
-                            </Typography>
-                            </React.Fragment>
-                        }
-                    />
-                </ListItem>
-                <Divider variant="middle" component="li" />
-            </List>
-        )
-    });
 
     if(props.type === "user") {
-        return users
+        return props.data.map((e) => {
+            return (
+                <List className={classes.root}>
+                    <ListItem onClick={() => props.onItemSelect(e.id)}>
+                        <ListItemIcon>
+                        {
+                            e.profile_image ? <Avatar src={e.profile_image} /> : <Avatar alt="Remy Sharp" />
+                        }
+                        </ListItemIcon>
+                        <ListItemText id={e.id} primary={e.name} />
+                    </ListItem>
+                    <Divider variant="inset" component="li" />
+                </List>
+            )
+        });
     } else if (props.type === "tree") {
-        return trees
+        return  props.data.map((e) => {
+            return (
+                <List className={classes.root}>
+                    <ListItem onClick={() => props.onItemSelect(e.id)}>
+                        <ListItemText
+                            primary={e.name.toUpperCase()}
+                            secondary={
+                                <React.Fragment>
+                                <Typography
+                                    component="span"
+                                    variant="body2"
+                                    className={classes.inline}
+                                    color="textPrimary"
+                                >
+                                Sapling No : {e.sapling_id.toUpperCase()}
+                                </Typography>
+                                </React.Fragment>
+                            }
+                        />
+                    </ListItem>
+                    <Divider variant="middle" component="li" />
+                </List>
+            )
+        });
     } else if (props.type === "loc") {
         return (
             <div>Location</div>

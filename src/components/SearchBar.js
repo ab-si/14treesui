@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
     '& > *': {
       margin: theme.spacing(1),
       width: '80vw',
+      marginBottom: 10
     },
   },
 }));

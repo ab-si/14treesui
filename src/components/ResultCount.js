@@ -5,7 +5,7 @@ class ResultCount extends React.Component {
     render() {
         // const person = renderPerson(this.props.result.person_count);
         return (
-            <div className="ui center aligned" style={{"display":"inline-flex"}}>
+            <div className="ui center aligned" style={{"display":"inline-flex", 'marginTop':5, 'marginLeft':10}}>
                 <div className="field">
                     <h5>Search results for your query:</h5>
                     {

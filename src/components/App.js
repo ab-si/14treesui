@@ -5,6 +5,7 @@ import SearchList from './SearchList';
 import ResultDetail from './ResultDetail';
 import Header from './Header';
 import ResultCount from './ResultCount';
+import Divider from '@material-ui/core/Divider';
 
 class App extends React.Component {
 
@@ -19,7 +20,8 @@ class App extends React.Component {
         width: 0, 
         height: 0,
         term: '',
-        displayResult: false
+        displayResult: false,
+        searchType:''
     }
 
     componentDidMount() {
@@ -65,7 +67,8 @@ class App extends React.Component {
         this.setState({
             searchResult: res.data.data,
             displayResult: true,
-            selectedInfo: res.data.data[0]
+            selectedInfo: res.data.data[0],
+            searchType: type
         })
     }
 
@@ -95,14 +98,14 @@ class App extends React.Component {
             <div className="ui fluid container">
                 <Header />
                 <SearchBar onSubmit={this.onCountSearchSubmit}/>
-                <div className="ui divider"></div>
+                <Divider variant="middle"/>
                 {searchCount}
                 {
                     this.state.displayResult
                             ?   <div className="ui grid" style={{"marginTop":"0.5rem"}}> 
                                     <div className="three wide column">
                                         {
-                                            <SearchList onItemSelect={this.onItemSelect} data={this.state.searchResult} height={this.state.height}/>
+                                            <SearchList onItemSelect={this.onItemSelect} type={this.state.searchType} data={this.state.searchResult} height={this.state.height}/>
                                         }
                                     </div>
                                     <div className="thirteen wide column">
