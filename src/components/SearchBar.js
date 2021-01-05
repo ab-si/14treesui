@@ -1,31 +1,36 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-class SearchBar extends React.Component {
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 
-    state = { term : '' }
-        
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '80vw',
+    },
+  },
+}));
 
-    onFormSubmit = (event) => {
+
+export default function SearchBar(props) {
+
+    const [value, setValue] = useState("");
+    
+    const handleChange = e => {
+        setValue(e.target.value)
+    }
+    const onFormSubmit = (event) => {
         event.preventDefault();
-        this.props.onSubmit(this.state.term);
+        props.onSubmit(value);
     }
+    const classes = useStyles();
 
-    render() {
-        return (
-            <div className="search-bar ui raised center aligned"> 
-                <form onSubmit={this.onFormSubmit} className="ui form">
-                    <div className="field">
-                        <label>Search for a Tree/User</label>
-                        <input 
-                            type="text" 
-                            value={this.state.term} 
-                            onChange={(e) => this.setState({term : e.target.value})}
-                        />
-                    </div>
-                </form>
+    return (
+        <div className="search-bar ui raised center aligned"> 
+            <form className={classes.root} noValidate autoComplete="off" onSubmit={onFormSubmit}>
+                <TextField id="outlined-basic" value={value} label="Search for a Tree/Person" variant="outlined" onChange={handleChange}/>
+            </form>
             </div>
-        )
-    }
+    )
 }
-
-export default SearchBar
