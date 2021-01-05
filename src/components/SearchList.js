@@ -1,24 +1,80 @@
 import React from 'react';
-import SearchCard from './SearchCard';
+import { makeStyles } from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Divider from '@material-ui/core/Divider';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
 
-const SearchList = (props) => {
 
-    var scope = {
-        newHeight: {
-            height: props.height
-        }
-    };
+const useStyles = makeStyles((theme) => ({
+    root: {
+      width: '100%',
+      maxWidth: '36ch',
+      backgroundColor: theme.palette.background.paper,
+    },
+    inline: {
+      display: 'inline',
+    },
+  }));
 
-    const result = props.data.map((e) => {
-        return <SearchCard onItemSelect={props.onItemSelect} id={e.id} name={e.name}/>
-    });
-    
-    return (
-        <div className="ui cards" style={{"height": `${props.height - 140}px`, 'overflow': 'auto'}}>
-            {result}
-        </div>
+export default function SearchList(props)  {
+    console.log(props)
+    const classes = useStyles();
+    const users = props.data.map((e) => {
+        return (
+            <List className={classes.root}>
+                <ListItem onClick={() => props.onItemSelect(e.id)}>
+                    <ListItemIcon>
+                    {
+                        e.profile_image ? <Avatar src={e.profile_image} /> : <Avatar alt="Remy Sharp" />
+                    }
+                    </ListItemIcon>
+                    <ListItemText id={e.id} primary={e.name} />
+                </ListItem>
+                <Divider variant="inset" component="li" />
+            </List>
         )
-    
-}
+    });
 
-export default SearchList;
+    const trees = props.data.map((e) => {
+        return (
+            <List className={classes.root}>
+                <ListItem onClick={() => props.onItemSelect(e.id)}>
+                    <ListItemText
+                        primary={e.name.toUpperCase()}
+                        secondary={
+                            <React.Fragment>
+                            <Typography
+                                component="span"
+                                variant="body2"
+                                className={classes.inline}
+                                color="textPrimary"
+                            >
+                            Sapling No : {e.sapling_id.toUpperCase()}
+                            </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+                <Divider variant="middle" component="li" />
+            </List>
+        )
+    });
+
+    if(props.type === "user") {
+        return users
+    } else if (props.type === "tree") {
+        return trees
+    } else if (props.type === "loc") {
+        return (
+            <div>Location</div>
+        )
+    } else if (props.type === "event") {
+        return (
+            <div>Campaign</div>
+        )
+    }
+}
