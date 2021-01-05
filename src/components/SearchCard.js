@@ -5,7 +5,7 @@ class SearchCard extends React.Component {
 
     render(){
         return (
-            <div onClick={() => this.props.onUserSelect(this.props.person_id)} className="ui card item">
+            <div onClick={() => this.props.onItemSelect(this.props.id)} className="ui card item">
                 {/* <div className="ui slide masked reveal image">
                     <img src={this.props.image} className="visible content" />
                     <img src={this.props.tree_image} className="hidden content" />

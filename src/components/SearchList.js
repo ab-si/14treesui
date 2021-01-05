@@ -10,7 +10,7 @@ const SearchList = (props) => {
     };
 
     const result = props.data.map((e) => {
-        return <SearchCard onUserSelect={props.onUserSelect} id={e.person_id} name={e.name}/>
+        return <SearchCard onItemSelect={props.onItemSelect} id={e.id} name={e.name}/>
     });
     
     return (

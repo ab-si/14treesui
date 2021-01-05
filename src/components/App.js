@@ -2,7 +2,7 @@ import React from 'react';
 import api from '../api/local';
 import SearchBar from './SearchBar';
 import SearchList from './SearchList';
-import UserDetail from './UserDetail';
+import ResultDetail from './ResultDetail';
 import Header from './Header';
 import ResultCount from './ResultCount';
 
@@ -14,10 +14,7 @@ class App extends React.Component {
         treeCount : 0,
         eventCount : 0,
         searchCountResult: [],
-        userSearchResult : [],
-        eventSearchResult : [],
-        locSearchResult : [],
-        treeSearchResult : [],
+        searchResult: [],
         selectedInfo: null, 
         width: 0, 
         height: 0,
@@ -47,49 +44,33 @@ class App extends React.Component {
                 res = await api.get('/api/v1/search/user', {
                     params : {term : this.state.term}
                 });
-                this.setState({
-                    userSearchResult: res.data.data,
-                    displayResult: true,
-                    selectedInfo: res.data.data[0]
-                });
-                console.log(this.state.selectedInfo)
                 break;
             case 'tree':
                 res = await api.get('/api/v1/search/tree', {
                     params : {term : this.state.term}
                 });
-                this.setState({
-                    treeSearchResult: res.data.data,
-                    displayResult: true,
-                    selectedInfo: res.data.data[0]
-                })
                 break;
             case 'loc':
                 res = await api.get('/api/v1/search/loc', {
                     params : {term : this.state.term}
                 });
-                this.setState({
-                    locSearchResult: res.data.data,
-                    displayResult: true,
-                    selectedInfo: res.data.data[0]
-                })
                 break;
             case 'event':
                 res = await api.get('/api/v1/search/event', {
                     params : {term : this.state.term}
                 });
-                this.setState({
-                    eventSearchResult: res.data.data,
-                    displayResult: true,
-                    selectedInfo: res.data.data[0]
-                })
                 break;
         }
+        this.setState({
+            searchResult: res.data.data,
+            displayResult: true,
+            selectedInfo: res.data.data[0]
+        })
     }
 
-    onUserSelect = (user) => {
-        const u = Object.keys(this.state.userSearchResult).filter(res => this.state.userSearchResult[res].person_id === user)
-        this.setState({selectedInfo: this.state.userSearchResult[parseInt(u)]})
+    onItemSelect = (item) => {
+        const u = Object.keys(this.state.searchResult).filter(res => this.state.searchResult[res].id === item)
+        this.setState({selectedInfo: this.state.searchResult[parseInt(u)]})
     }
 
     updateWindowDimensions = () => {
@@ -106,26 +87,27 @@ class App extends React.Component {
         }
 
         let displayComponent;
-        if (this.state.userSearchResult.length > 0){
-            displayComponent = <UserDetail user={this.state.selectedInfo}/>
+        if (this.state.searchResult.length > 0){
+            displayComponent = <ResultDetail data={this.state.selectedInfo}/>
         }
         return (
-            <div className="ui container">
+            <div className="ui fluid container">
                 <Header />
                 <SearchBar onSubmit={this.onCountSearchSubmit}/>
+                <div className="ui divider"></div>
                 {searchCount}
                 {
                     this.state.displayResult
-                            ? <div className="ui grid"> 
-                                <div className="fourteen wide column">
-                                    {displayComponent}
-                                    </div>
-                                    <div className="two wide column">
+                            ?   <div className="ui grid" style={{"marginTop":"0.5rem"}}> 
+                                    <div className="three wide column">
                                         {
-                                            <SearchList onUserSelect={this.onUserSelect} data={this.state.userSearchResult} height={this.state.height}/>
+                                            <SearchList onItemSelect={this.onItemSelect} data={this.state.searchResult} height={this.state.height}/>
                                         }
+                                    </div>
+                                    <div className="thirteen wide column">
+                                        {displayComponent}
+                                    </div>
                                 </div>
-                            </div>
                             : null
                 }
             </div>

@@ -12,7 +12,7 @@ class SearchBar extends React.Component {
 
     render() {
         return (
-            <div className="search-bar ui segment center aligned"> 
+            <div className="search-bar ui raised center aligned"> 
                 <form onSubmit={this.onFormSubmit} className="ui form">
                     <div className="field">
                         <label>Search for a Tree/User</label>
