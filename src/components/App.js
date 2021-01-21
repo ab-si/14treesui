@@ -5,23 +5,28 @@ import SearchList from './SearchList';
 import ResultDetail from './ResultDetail';
 import Header from './Header';
 import ResultCount from './ResultCount';
-import Divider from '@material-ui/core/Divider';
+import DataDisplay from './DataDisplay'
 
 class App extends React.Component {
 
-    state = { 
+    state = {
         userCount: 0,
         locCount: 0,
         treeCount : 0,
         eventCount : 0,
         searchCountResult: [],
+        selectedSearchCount: 0,
         searchResult: [],
-        selectedInfo: null, 
-        width: 0, 
+        selectedInfo: null,
+        selectedType: '',
+        width: 0,
         height: 0,
         term: '',
         displayResult: false,
-        searchType:''
+        searchType:'',
+        searchSize: 10,
+        currentResultListPage: 1,
+        type:''
     }
 
     componentDidMount() {
@@ -29,46 +34,51 @@ class App extends React.Component {
       }
 
     onCountSearchSubmit = async (term) => {
-        console.log(term)
         const res = await api.get('/api/v1/search/getcount', {
             params: { term : term }
         });
 
-        this.setState({ 
+        this.setState({
             term: term,
             searchCountResult: res.data.data
         })
     }
 
-    onTypeSelect = async (type) => {
-        let res = null;
-        switch (type) {
-            case 'user':
-                res = await api.get('/api/v1/search/user', {
-                    params : {term : this.state.term}
-                });
-                break;
-            case 'tree':
-                res = await api.get('/api/v1/search/tree', {
-                    params : {term : this.state.term}
-                });
-                break;
-            case 'loc':
-                res = await api.get('/api/v1/search/loc', {
-                    params : {term : this.state.term}
-                });
-                break;
-            case 'event':
-                res = await api.get('/api/v1/search/event', {
-                    params : {term : this.state.term}
-                });
-                break;
+    fetchData = async (type) => {
+        let selectedType = type + "_count";
+        let params = {
+            type: type,
+            term : this.state.term,
+            size: this.state.searchSize,
+            index: this.state.currentResultListPage
         }
+        const res = await api.get('/api/v1/search/getsearchlist', {
+            params : params
+        });
+
         this.setState({
+            type: type,
             searchResult: res.data.data,
             displayResult: true,
             selectedInfo: res.data.data[0],
-            searchType: type
+            searchType: type,
+            selectedSearchCount: this.state.searchCountResult[0][selectedType]
+        })
+    }
+
+    getResult = async (type) => {
+        this.setState({
+            currentResultListPage: 1
+        }, () => {
+            this.fetchData(type)
+        })
+    }
+
+    handlePageChange = (page) => {
+        this.setState({
+            currentResultListPage: page
+        }, () => {
+            this.fetchData(this.state.searchType)
         })
     }
 
@@ -80,32 +90,29 @@ class App extends React.Component {
     updateWindowDimensions = () => {
         this.setState({ width: window.innerWidth, height: window.innerHeight });
     }
-    
-    render() {
 
+    render() {
         let searchCount;
         if (this.state.searchCountResult.length === 0) {
             searchCount = "";
         } else {
-            searchCount = <ResultCount result={this.state.searchCountResult[0]} onTypeSelect={this.onTypeSelect}/>;
+            searchCount = <ResultCount selectedSearchCount={this.state.selectedSearchCount} result={this.state.searchCountResult[0]} onTypeSelect={this.getResult} handlePageChange={this.handlePageChange}/>;
         }
 
-        let displayComponent;
-        if (this.state.searchResult.length > 0){
-            displayComponent = <ResultDetail data={this.state.selectedInfo}/>
-        }
         return (
             <div className="ui fluid container">
                 <Header />
                 <SearchBar onSubmit={this.onCountSearchSubmit}/>
-                <Divider variant="middle"/>
                 {searchCount}
-                {
+                <DataDisplay data={this.state.searchResult} type={this.state.type}/>
+                {/* { old version
                     this.state.displayResult
-                            ?   <div className="ui grid" style={{"marginTop":"0.5rem"}}> 
+                            ?   <div className="ui grid" style={{"marginTop":"0.5rem"}}>
                                     <div className="three wide column">
+                                        <Pagination onChange={this.handlePageChange} count={Math.floor(this.state.selectedSearchCount / 10) + 1} color="primary" size="small" siblingCount={1} style={{"marginLeft":15}}/>
                                         {
                                             <SearchList onItemSelect={this.onItemSelect} type={this.state.searchType} data={this.state.searchResult} height={this.state.height}/>
+
                                         }
                                     </div>
                                     <div className="thirteen wide column">
@@ -113,7 +120,7 @@ class App extends React.Component {
                                     </div>
                                 </div>
                             : null
-                }
+                } */}
             </div>
         )
     }

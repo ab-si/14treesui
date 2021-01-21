@@ -4,8 +4,6 @@ const ResultDetail = ({data}) => {
     if(!data){
         return <div>Loading...</div>
     }
-
-    console.log(data)
     return (
         <div className="ui segment">
             {/* <img className="ui avatar tiny image"src={user.user_image} /> */}

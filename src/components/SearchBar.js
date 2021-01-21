@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,6 +33,8 @@ export default function SearchBar(props) {
             <form className={classes.root} noValidate autoComplete="off" onSubmit={onFormSubmit}>
                 <TextField id="outlined-basic" value={value} label="Search for a Tree/Person" variant="outlined" onChange={handleChange}/>
             </form>
-            </div>
+            {/* 'root' | 'absolute' | 'inset' | 'light' | 'middle' | 'vertical'; */}
+            <Divider variant="middle"/>
+        </div>
     )
 }

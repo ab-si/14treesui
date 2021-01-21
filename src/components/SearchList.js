@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 export default function SearchList(props)  {
-    console.log(props)
     const classes = useStyles();
 
     if(props.type === "user") {
