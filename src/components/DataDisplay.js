@@ -4,7 +4,6 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
@@ -12,9 +11,11 @@ import AvatarGroup from '@material-ui/lab/AvatarGroup';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '80%',
-    marginLeft: 10,
-    marginTop: 10
+    width: '85%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 15,
+    marginBottom: 15,
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),

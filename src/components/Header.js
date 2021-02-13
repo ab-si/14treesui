@@ -1,20 +1,19 @@
 import React from 'react';
 import Card from '@material-ui/core/Card';
+import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import { Autocomplete } from '@material-ui/lab';
 
 
 const useStyles = makeStyles({
     root: {
-      width: '75%',
-      marginLeft: 10,
-      marginBottom: 5
-    },
-    bullet: {
-      display: 'inline-block',
-      margin: '0 2px',
-      transform: 'scale(0.8)',
+      width: '100%',
+      margin: 'auto',
+      justifyContent: 'center',
+      textAlign:'center',
+      marginBottom: 18,
     },
     title: {
       fontSize: 14,
@@ -28,7 +27,8 @@ export default function Header() {
     const classes = useStyles();
     
     return (
-        <Card className={classes.root} variant="outlined">
+      <Paper className={classes.root} elevation={3}>
+        <Card>
         <CardContent>
             <Typography variant="h3" component="h1">
             14 Trees Foundation
@@ -38,5 +38,6 @@ export default function Header() {
             </Typography>
         </CardContent>
         </Card>
+        </Paper>
     )
 }

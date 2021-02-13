@@ -1,12 +1,9 @@
 import React from 'react';
 import api from '../api/local';
 import SearchBar from './SearchBar';
-import SearchList from './SearchList';
-import ResultDetail from './ResultDetail';
-import Header from './Header';
 import ResultCount from './ResultCount';
 import DataDisplay from './DataDisplay'
-
+import { makeStyles } from '@material-ui/core/styles';
 class App extends React.Component {
 
     state = {
@@ -101,7 +98,6 @@ class App extends React.Component {
 
         return (
             <div className="ui fluid container">
-                <Header />
                 <SearchBar onSubmit={this.onCountSearchSubmit}/>
                 {searchCount}
                 <DataDisplay data={this.state.searchResult} type={this.state.type}/>

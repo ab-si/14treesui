@@ -8,7 +8,7 @@ export default function ResultCount(props) {
     }
 
     return (
-        <div className="ui center aligned" style={{"display":"inline-flex", 'marginTop':5, 'marginLeft':10}}>
+        <div className="ui center aligned" style={{"display":"inline-flex", 'marginTop':15, 'justifyContent':'center', 'width':'100%'}}>
             <div className="field">
                 <h5>Search results for your query:</h5>
                 {
@@ -31,7 +31,7 @@ export default function ResultCount(props) {
                         ? <button className="ui primary basic active button" onClick={() => props.onTypeSelect('loc')}>Locations ({props.result.loc_count})</button>
                         : <button className="ui primary basic disabled button" >Locations ({props.result.loc_count})</button>
                 }
-                <Pagination onChange={handlePageChange} count={Math.floor(props.selectedSearchCount / 10) + 1} color="primary" size="medium" siblingCount={1} style={{"marginLeft":15, "display":"inline-block"}}/>
+                <Pagination onChange={handlePageChange} count={Math.floor(props.selectedSearchCount / 10) + 1} color="primary" size="medium" siblingCount={1} style={{"marginLeft":20, "display":"inline-block"}}/>
             </div>
         </div>
     )
