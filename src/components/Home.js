@@ -3,6 +3,7 @@ import Login from './Login/Login'
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
+import BackupIcon from '@material-ui/icons/Backup';
 import React from 'react';
 import UploadData from './UploadData';
 import App from './App';
@@ -26,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         margin: theme.spacing(1),
+    },
+    login: {
+        marginTop: '10%'
     }
   }));
 
@@ -35,7 +39,9 @@ export default function Home() {
     const { token, setToken } = useToken();
 
     if(!token) {
-        return <Login setToken={setToken} />
+        return <div className={classes.login}>
+            <Login setToken={setToken}/>
+        </div>
     }
 
     return (
@@ -50,7 +56,7 @@ export default function Home() {
                                 color="primary"
                                 size="large"
                                 className={classes.button}
-                                startIcon={<SearchIcon />}
+                                startIcon={<BackupIcon />}
                                 onClick={() => setMainState("upload")}
                             >
                                 Upload data
@@ -67,7 +73,7 @@ export default function Home() {
                             </Button>
                         </div>
                         {
-                            (mainState === "upload" && <UploadData />) || (mainState === "search" && <App />)
+                            (mainState === "upload" && <UploadData token={token}/>) || (mainState === "search" && <App token={token}/>)
                         }
                     </Route>
                 </Switch>

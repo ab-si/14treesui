@@ -89,7 +89,7 @@ function TabPanel(props) {
     };
   }
 
-export default function UploadData() {
+export default function UploadData({token}) {
     const classes = useStyles();
     const [selectedFile, setSelectedFile] = React.useState(null);
     const [progress, setProgress] = React.useState(0);
@@ -152,13 +152,21 @@ export default function UploadData() {
       };
     const uploadCsv = async () => {
         const data = new FormData()
-        data.append('file', selectedFile)
+        var options = {
+            header: {
+               'x-access-token': token
+           }
+        };
+        data.append('file', selectedFile, options)
         api.post('/api/v1/upload/csv', data, {
             onUploadProgress: progress => {
                 const { loaded, total } = progress
                 const percentageProgress = Math.floor((loaded/total) * 100)
                 setProgress(percentageProgress)
               },
+              headers: {
+                'x-access-token': token 
+              }
         }).then(data => {
             toast.success('Data successfully uploaded.')
         }).catch(err => {
@@ -168,10 +176,15 @@ export default function UploadData() {
     };
 
     const uploadSheetCsv = async() => {
-        const res = await api.post('/api/v1/upload/googlecsv', {
+        const res = await api.post('/api/v1/upload/googlecsv',{
             params: {
                 sheetname : sheetname,
             }
+        },
+        {
+            headers: {
+                'x-access-token': token 
+              }
         });
         if (res.status===200){
             toast.success('Data successfully uploaded.')
