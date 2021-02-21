@@ -4,11 +4,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
 import BackupIcon from '@material-ui/icons/Backup';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import React from 'react';
 import UploadData from './UploadData';
 import App from './App';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import useToken from './useToken';
+import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,25 +28,20 @@ const useStyles = makeStyles((theme) => ({
     button: {
         margin: theme.spacing(1),
     },
-    login: {
-        marginTop: '10%'
-    }
   }));
 
-export default function Home() {
+export default function Home({token, setAuth, removeToken}) {
+    // const history = useHistory();
     const classes = useStyles();
     const [mainState, setMainState] = React.useState("");
-    const { token, setToken } = useToken();
 
-    if(!token) {
-        return <div className={classes.login}>
-            <Login setToken={setToken}/>
-        </div>
+    const logout = () => {
+        localStorage.removeItem('token');
+        setAuth(false);
     }
 
     return (
         <div className={classes.root}>
-            <Header />
             <BrowserRouter>
                 <Switch>
                     <Route path="/">
@@ -70,6 +65,16 @@ export default function Home() {
                                 onClick={() => setMainState("search")}
                             >
                                 Search trees/Persons
+                            </Button>
+                            <Button
+                                variant="outlined"
+                                color="secondary"
+                                size="large"
+                                className={classes.button}
+                                startIcon={<ExitToAppIcon/>}
+                                onClick={() => logout()}
+                            >
+                                Logout
                             </Button>
                         </div>
                         {

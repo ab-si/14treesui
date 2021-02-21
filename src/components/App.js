@@ -35,6 +35,7 @@ class App extends React.Component {
       }
 
     onCountSearchSubmit = async (term) => {
+        console.log(term)
         const res = await api.get('/api/v1/search/getcount', {
             params: { term : term },
             headers: {
