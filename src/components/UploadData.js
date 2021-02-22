@@ -14,6 +14,7 @@ import Divider from '@material-ui/core/Divider';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TextField from '@material-ui/core/TextField';
+import { useAuth } from "./context/auth";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -89,7 +90,8 @@ function TabPanel(props) {
     };
   }
 
-export default function UploadData({token}) {
+export default function UploadData(props) {
+    const { authTokens } = useAuth();
     const classes = useStyles();
     const [selectedFile, setSelectedFile] = React.useState(null);
     const [progress, setProgress] = React.useState(0);
@@ -120,7 +122,6 @@ export default function UploadData({token}) {
     }
 
     const onFileChange = event => {
-        console.log(event.target.files)
         var file = event.target.files[0]
         if(checkFileSize(event)){
             // if return true allow to setState
@@ -152,12 +153,7 @@ export default function UploadData({token}) {
       };
     const uploadCsv = async () => {
         const data = new FormData()
-        var options = {
-            header: {
-               'x-access-token': token
-           }
-        };
-        data.append('file', selectedFile, options)
+        data.append('file', selectedFile)
         api.post('/api/v1/upload/csv', data, {
             onUploadProgress: progress => {
                 const { loaded, total } = progress
@@ -165,10 +161,30 @@ export default function UploadData({token}) {
                 setProgress(percentageProgress)
               },
               headers: {
-                'x-access-token': token 
+                'x-access-token': authTokens 
               }
         }).then(data => {
             toast.success('Data successfully uploaded.')
+        }).catch(err => {
+            toast.error('Error uploading data!!!')
+            console.log(err)
+        })
+    };
+
+    const uploadTreeCsv = async () => {
+        const data = new FormData()
+        data.append('file', selectedFile)
+        api.post('/api/v1/upload/treecsv', data, {
+            onUploadProgress: progress => {
+                const { loaded, total } = progress
+                const percentageProgress = Math.floor((loaded/total) * 100)
+                setProgress(percentageProgress)
+              },
+              headers: {
+                'x-access-token': authTokens 
+              }
+        }).then(data => {
+            toast.success('Tree Data successfully uploaded.')
         }).catch(err => {
             toast.error('Error uploading data!!!')
             console.log(err)
@@ -183,7 +199,7 @@ export default function UploadData({token}) {
         },
         {
             headers: {
-                'x-access-token': token 
+                'x-access-token': authTokens 
               }
         });
         if (res.status===200){
@@ -206,6 +222,7 @@ export default function UploadData({token}) {
             >
                 <Tab value="one" label="Upload CSV" {...a11yProps('one')} className={classes.tab}/>
                 <Tab value="two" label="Upload via Google Sheet" {...a11yProps('two')} className={classes.tab}/>
+                <Tab value="three" label="Upload Tree CSV data" {...a11yProps('three')} className={classes.tab}/>
             </Tabs>
             <TabPanel value={value} index="one">
                 <Card className={classes.card}>
@@ -252,6 +269,32 @@ export default function UploadData({token}) {
                         Upload
                         </Button>
                     </CardActions>
+                </Card>
+            </TabPanel>
+            <TabPanel value={value} index="three">
+                <Card className={classes.card}>
+                    <div style={{'display':'grid'}}>
+                        <h5 className={classes.text}>Select the csv file for uploading Tree data</h5>
+                        <input
+                            accept=".csv"
+                            style={{'marginLeft':'25%', 'marginTop': '10%'}}
+                            type="file"
+                            id="contained-button-file"
+                            onChange={onFileChange}
+                        />
+                        <LinearProgressWithLabel value={progress} />
+                        <CardActions className={classes.cardButton}>
+                            <Button
+                                variant="outlined"
+                                color="primary"
+                                component="span"
+                                disabled={!selectedFile}
+                                onClick={uploadTreeCsv}
+                            >
+                            Upload Tree Data
+                            </Button>
+                        </CardActions>
+                    </div>
                 </Card>
             </TabPanel>
             <Divider orientation="vertical" />
