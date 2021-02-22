@@ -49,7 +49,11 @@ export default function Header(props) {
       // <Paper className={classes.root} elevation={3}>
       <AppBar position="static" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
-          <IconButton edge="start" color="inherit" aria-label="home" style={{'marginRight':'auto'}}>
+          <IconButton
+            edge="start" color="inherit" aria-label="home" style={{'marginRight':'auto'}}
+            component={RouterLink}
+            to={'/'}
+          >
             <Home fontSize="large" />
           </IconButton>
             <Button
