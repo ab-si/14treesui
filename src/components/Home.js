@@ -11,13 +11,14 @@ import UploadData from './UploadData';
 import App from './App';
 import { AuthContext } from "./context/auth";
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { CssBaseline } from "@material-ui/core"
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
       width: '100%',
       justifyContent: 'center',
       textAlign: 'center',
-      marginTop: 15,
     },
     child: {
         marginTop:50,
@@ -37,62 +38,30 @@ export default function Home(props) {
     const classes = useStyles();
     const existingTokens = localStorage.getItem("token");
     const [authTokens, setAuthTokens] = useState(existingTokens);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const setTokens = (data) => {
         localStorage.setItem("token", data);
         setAuthTokens(data);
+        setIsLoggedIn(true);
     }
 
     const removeTokens = () => {
         localStorage.removeItem("token")
         setAuthTokens();
+        setIsLoggedIn(false);
     }
 
     return (
         <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
             <div className={classes.root}>
-                <Header />
-                <Router>
-                    <div>
-                        <div>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                size="large"
-                                className={classes.button}
-                                startIcon={<BackupIcon />}
-                                component={Link}
-                                to={'/upload'}
-                            >
-                                Upload data
-                            </Button>
-                            <Button
-                                variant="contained"
-                                color="secondary"
-                                size="large"
-                                className={classes.button}
-                                startIcon={<SearchIcon />}
-                                component={Link}
-                                to={'/search'}
-                            >
-                                Search Tree/Person
-                            </Button>
-                            <Button
-                                variant="outlined"
-                                color="secondary"
-                                size="large"
-                                className={classes.button}
-                                startIcon={<ExitToAppIcon/>}
-                                onClick={() => removeTokens()}
-                            >
-                                Logout
-                            </Button>
-                        </div>
+                <CssBaseline />
+                <Header isLoggedIn={isLoggedIn} removeTokens={removeTokens}/>
+                <div>
                     <PrivateRoute exact path="/upload" component={UploadData} />
                     <Route exact path="/search" component={App} />
                     <Route exact path="/login" component={Login} />
-                    </div>
-                </Router>
+                </div>
             </div>
         </AuthContext.Provider>
     );
