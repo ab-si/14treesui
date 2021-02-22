@@ -1,14 +1,16 @@
-import Header from './Header';
 import Login from './Login/Login'
+import Header from './Header'
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
 import BackupIcon from '@material-ui/icons/Backup';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import React from 'react';
+import PrivateRoute from './PrivateRoute';
+import React, { useState } from 'react';
 import UploadData from './UploadData';
 import App from './App';
-import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+import { AuthContext } from "./context/auth";
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,21 +32,28 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-export default function Home({token, setAuth, removeToken}) {
+export default function Home(props) {
     // const history = useHistory();
     const classes = useStyles();
-    const [mainState, setMainState] = React.useState("");
+    const existingTokens = localStorage.getItem("token");
+    const [authTokens, setAuthTokens] = useState(existingTokens);
 
-    const logout = () => {
-        localStorage.removeItem('token');
-        setAuth(false);
+    const setTokens = (data) => {
+        localStorage.setItem("token", data);
+        setAuthTokens(data);
+    }
+
+    const removeTokens = () => {
+        localStorage.removeItem("token")
+        setAuthTokens();
     }
 
     return (
-        <div className={classes.root}>
-            <BrowserRouter>
-                <Switch>
-                    <Route path="/">
+        <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
+            <div className={classes.root}>
+                <Header />
+                <Router>
+                    <div>
                         <div>
                             <Button
                                 variant="contained"
@@ -52,7 +61,8 @@ export default function Home({token, setAuth, removeToken}) {
                                 size="large"
                                 className={classes.button}
                                 startIcon={<BackupIcon />}
-                                onClick={() => setMainState("upload")}
+                                component={Link}
+                                to={'/upload'}
                             >
                                 Upload data
                             </Button>
@@ -62,9 +72,10 @@ export default function Home({token, setAuth, removeToken}) {
                                 size="large"
                                 className={classes.button}
                                 startIcon={<SearchIcon />}
-                                onClick={() => setMainState("search")}
+                                component={Link}
+                                to={'/search'}
                             >
-                                Search trees/Persons
+                                Search Tree/Person
                             </Button>
                             <Button
                                 variant="outlined"
@@ -72,17 +83,17 @@ export default function Home({token, setAuth, removeToken}) {
                                 size="large"
                                 className={classes.button}
                                 startIcon={<ExitToAppIcon/>}
-                                onClick={() => logout()}
+                                onClick={() => removeTokens()}
                             >
                                 Logout
                             </Button>
                         </div>
-                        {
-                            (mainState === "upload" && <UploadData token={token}/>) || (mainState === "search" && <App token={token}/>)
-                        }
-                    </Route>
-                </Switch>
-            </BrowserRouter>
-        </div>
+                    <PrivateRoute exact path="/upload" component={UploadData} />
+                    <Route exact path="/search" component={App} />
+                    <Route exact path="/login" component={Login} />
+                    </div>
+                </Router>
+            </div>
+        </AuthContext.Provider>
     );
 }

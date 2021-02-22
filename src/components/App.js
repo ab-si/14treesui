@@ -38,9 +38,6 @@ class App extends React.Component {
         console.log(term)
         const res = await api.get('/api/v1/search/getcount', {
             params: { term : term },
-            headers: {
-                'x-access-token': this.state.token 
-              }
         });
 
         this.setState({
@@ -58,10 +55,7 @@ class App extends React.Component {
             index: this.state.currentResultListPage
         }
         const res = await api.get('/api/v1/search/getsearchlist', {
-            params : params,
-            headers: {
-                'x-access-token': this.state.token 
-              }
+            params : params
         });
 
         this.setState({

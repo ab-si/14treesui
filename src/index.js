@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Login from './components/Login/Login';
+import Home from './components/Home';
 
 ReactDOM.render(
-    <Login />,
+    <Home />,
   document.getElementById('root')
 );
 
