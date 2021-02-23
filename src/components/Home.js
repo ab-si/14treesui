@@ -13,6 +13,7 @@ import App from './App';
 import { AuthContext } from "./context/auth";
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { CssBaseline } from "@material-ui/core"
+import VisitorForm from './VisitorForm';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
       justifyContent: 'center',
       textAlign: 'center',
+      minWidth:'1000px'
     },
     child: {
         marginTop:50,
@@ -60,6 +62,7 @@ export default function Home(props) {
                 <Header isLoggedIn={isLoggedIn} removeTokens={removeTokens}/>
                 <div>
                     <Route exact path="/" component={App} />
+                    <Route exact path="/visitorform" component={VisitorForm} />
                     <PrivateRoute exact path="/upload" component={UploadData} />
                     <Route exact path="/search" component={Search} />
                     <Route exact path="/login" component={Login} />

@@ -9,6 +9,11 @@ import { AppBar, Toolbar, IconButton, Button } from "@material-ui/core"
 import Image from "../tree.png";
 import { Home } from "@material-ui/icons"
 import { Link as RouterLink } from "react-router-dom";
+import Popper from '@material-ui/core/Popper';
+import Grow from '@material-ui/core/Grow';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
 
 const useStyles = makeStyles({
     root: {
@@ -44,6 +49,34 @@ const useStyles = makeStyles({
 
 export default function Header(props) {
     const classes = useStyles();
+    const anchorRef = React.useRef(null);
+    const [open, setOpen] = React.useState(false);
+    function handleListKeyDown(event) {
+      if (event.key === 'Tab') {
+        event.preventDefault();
+        setOpen(false);
+      }
+    }
+
+    const handleToggle = () => {
+      setOpen((prevOpen) => !prevOpen);
+    };
+    const handleClose = (event) => {
+      if (anchorRef.current && anchorRef.current.contains(event.target)) {
+        return;
+      }
+  
+      setOpen(false);
+    };
+
+    const prevOpen = React.useRef(open);
+    React.useEffect(() => {
+      if (prevOpen.current === true && open === false) {
+        anchorRef.current.focus();
+      }
+
+      prevOpen.current = open;
+    }, [open]);
     
     return (
       // <Paper className={classes.root} elevation={3}>
@@ -56,42 +89,95 @@ export default function Header(props) {
           >
             <Home fontSize="large" />
           </IconButton>
-            <Button
-              className={classes.menuButton}
-              component={RouterLink}
-              to={'/upload'}
+          <div>
+              <Button
+                className={classes.menuButton}
+                ref={anchorRef}
+                aria-controls={open ? 'menu-list-grow' : undefined}
+                aria-haspopup="true"
+                onClick={handleToggle}
               >
                 Upload
-            </Button>
-            <Button
-              className={classes.menuButton}
-              component={RouterLink}
-              to={'/search'}
+              </Button>
+              <Popper
+                open={open}
+                anchorEl={anchorRef.current}
+                role={undefined}
+                transition
+                disablePortal
               >
-                Search
-            </Button>
-          { props.isLoggedIn && 
-            <Button
-              className={classes.menuButton}
-              color='secondary'
-              variant="contained"
-              onClick={() => props.removeTokens()}
-              component={RouterLink}
-              to={'/login'}
-              >
-                Log Out
-            </Button>
-          }
-          { !props.isLoggedIn && 
-            <Button
-              className={classes.menuButton}
-              color='primary'
-              variant="contained"
-              component={RouterLink}
-              to={'/login'}
-              >
-                Log In
-            </Button>
+                {({ TransitionProps, placement }) => (
+                  <Grow
+                    {...TransitionProps}
+                    style={{
+                      transformOrigin:
+                        placement === 'bottom' ? 'center top' : 'center bottom',
+                    }}
+                  >
+                    <Paper>
+                      <ClickAwayListener onClickAway={handleClose}>
+                        <MenuList
+                          autoFocusItem={open}
+                          id="menu-list-grow"
+                          onKeyDown={handleListKeyDown}
+                        >
+                          <MenuItem
+                            component={RouterLink}
+                            to={'/visitorform'}
+                            onClick={handleClose}
+                          >
+                            Visitor
+                          </MenuItem>
+                          <MenuItem
+                            component={RouterLink}
+                            to={'/upload'}
+                            onClick={handleClose}
+                          >
+                            Admin
+                          </MenuItem>
+                        </MenuList>
+                      </ClickAwayListener>
+                    </Paper>
+                  </Grow>
+                )}
+              </Popper>
+            </div>
+          {/* <Button
+            className={classes.menuButton}
+            component={RouterLink}
+            to={'/upload'}
+            >
+              Upload
+          </Button> */}
+          <Button
+            className={classes.menuButton}
+            component={RouterLink}
+            to={'/search'}
+            >
+              Search
+          </Button>
+        { props.isLoggedIn && 
+          <Button
+            className={classes.menuButton}
+            color='secondary'
+            variant="contained"
+            onClick={() => props.removeTokens()}
+            component={RouterLink}
+            to={'/login'}
+            >
+              Log Out
+          </Button>
+        }
+        { !props.isLoggedIn && 
+          <Button
+            className={classes.menuButton}
+            color='primary'
+            variant="contained"
+            component={RouterLink}
+            to={'/login'}
+            >
+              Log In
+          </Button>
           }
         </Toolbar>
         {/* <div className={classes.root}>
