@@ -1,5 +1,5 @@
 import React from 'react';
-import api from '../api/local';
+import api from '../../api/local';
 import ResultCount from './ResultCount';
 import DataDisplay from './DataDisplay';
 import SearchBar from './SearchBar';

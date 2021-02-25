@@ -1,14 +1,10 @@
 import Login from './Login/Login'
 import Header from './Header'
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import SearchIcon from '@material-ui/icons/Search';
-import BackupIcon from '@material-ui/icons/Backup';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PrivateRoute from './PrivateRoute';
 import React, { useState } from 'react';
 import UploadData from './UploadData';
-import Search from './Search';
+import Search from './Search/Search';
 import App from './App';
 import { AuthContext } from "./context/auth";
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
@@ -62,7 +58,7 @@ export default function Home(props) {
                 <Header isLoggedIn={isLoggedIn} removeTokens={removeTokens}/>
                 <div>
                     <Route exact path="/" component={App} />
-                    <Route exact path="/visitorform" component={VisitorForm} />
+                    <Route exact path="/visitorform" component={VisitorForm}/>
                     <PrivateRoute exact path="/upload" component={UploadData} />
                     <Route exact path="/search" component={Search} />
                     <Route exact path="/login" component={Login} />

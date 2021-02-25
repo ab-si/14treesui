@@ -3,6 +3,8 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Paper, Typography, Avatar } from '@material-ui/core';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -12,7 +14,9 @@ import DateFnsUtils from '@date-io/date-fns';
 import api from '../api/local';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import tree from '../tree.png'
+import tree from './tree1.jpg'
+import { Link as RouterLink } from "react-router-dom";
+import moment from 'moment';
 
 import MuiAlert from '@material-ui/lab/Alert';
 
@@ -37,7 +41,9 @@ const intitialFValues = {
     addImage2src:null,
     addImage3src:null,
     error:null,
-    uploaded:false
+    uploaded:false,
+    loading:false,
+    backdropOpen:false,
 }
 
 const useStyle = makeStyles(theme => ({
@@ -51,10 +57,9 @@ const useStyle = makeStyles(theme => ({
         margin: 'auto',
         marginTop:'5%',
         width: 350,
-        height:350,
     },
     media: {
-        height: '160px',
+        height: '280px',
         paddingTop: '56.25%',
     },
     paper: {
@@ -84,17 +89,25 @@ const useStyle = makeStyles(theme => ({
     images:{
         display:'flex',
         justifyContent:'center'
-    }
+    },
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
+    },
 })
 );
 
-export default function VisitorForm() {
-
+export default function VisitorForm({newForm}) {
     const [values, setValues] = useState(intitialFValues);
     const [errors, setErrors] = useState({});
     const classes = useStyle();
     const PROFILE_IMG_MAX=2;
     const ADDITIONAL_IMG_MAX=10;
+
+    const reset = () => {
+        setValues(intitialFValues)
+        setErrors({}) 
+    }
 
     const validate = () => {
         let temp = {};
@@ -123,8 +136,16 @@ export default function VisitorForm() {
         });
       };
     
+    const handleClose = () => {
+        if (!values.loading) {
+            setValues({
+                ...values,
+                backdropOpen:false,
+            })
+        };
+        }
+    
     const handleAdditionalPicUpload = (e) => {
-        console.log("Here")
         if (Array.from(e.target.files).length > ADDITIONAL_IMG_MAX) {
             // e.preventDefault();
             setValues({
@@ -166,10 +187,17 @@ export default function VisitorForm() {
         if(!validate()){
             toast.error('Please fill mandatory fields')
         } else {
+            setValues({
+                ...values,
+                loading:true,
+                backdropOpen:true
+            })
             const formData = new FormData()
+            const date = moment(values.date).format('YYYY-MM-DD')
+            formData.append('name', values.name)
             formData.append('email', values.email);
             formData.append('org', values.org);
-            formData.append('date', values.date);
+            formData.append('date', date);
             formData.append('contact', values.contact);
             formData.append('sapling', values.sapling);
             const userImages = [];
@@ -197,30 +225,44 @@ export default function VisitorForm() {
             }).then(data => {
                 setValues({
                     ...values,
-                    uploaded:true
+                    loading:false
                 })
+                console.log(data.status === 204)
+                if (data.status !== 200) {
+                    toast.error(data.statusText)
+                } else {
+                    setValues({
+                        ...values,
+                        uploaded:true
+                    })
+                }
             }).catch(err => {
-                toast.error('Error uploading data!!!')
-                console.log(err)
+                setValues({
+                    ...values,
+                    loading:false
+                })
+                if (err.response.status === 409) {
+                    toast.error(err.response.statusText)
+                } else {
+                    toast.error("Something went wrong!")
+                }
             })
         }
     }
 
     if(values.uploaded){
-        console.log(tree)
         return(
             <div>
                 <Alert severity="success">Your form has been uploaded successfully!</Alert>
                 <Card className={classes.successRoot}>
-                    <CardContent style={{'marginTop':'5%'}}>
-                        <Typography variant="h5" component="h2">
+                    <CardContent style={{'marginTop':'1%'}}>
+                        <Typography variant="h5" component="h2" style={{'marginBottom':'10px'}}>
                             Form Submitted
                         </Typography>
                         <CardMedia
                             className={classes.media}
-                            src={tree}
+                            image= {tree}
                             title="tree"
-                            component='img'
                         />
                         <Typography variant="body2" color="textSecondary" component="p">
                             This impressive paella is a perfect party dish and a fun meal to cook together with your
@@ -228,11 +270,26 @@ export default function VisitorForm() {
                         </Typography>
                     </CardContent>
                 </Card>
+                <Button
+                    variant="contained"
+                    color='secondary'
+                    style={{'marginTop':'50px', 'marginLeft':'30px', 'marginRight':'20px'}}
+                    component={RouterLink}
+                    to={'/'}
+                >
+                    Home
+                </Button>
+                <Button variant="contained" component="span" color='primary' style={{'marginTop':'50px', 'marginRight':'30px'}} onClick={reset}>
+                    Add more entries
+                </Button>
             </div>
         )
     } else {
         return(
             <Paper className={classes.paper}>
+                <Backdrop className={classes.backdrop} open={values.backdropOpen} onClick={handleClose}>
+                    <CircularProgress color="secondary" size={60} thickness={5}/>
+                </Backdrop>
                 <div className="form-group">
                     <ToastContainer />
                 </div>

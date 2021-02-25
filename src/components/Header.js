@@ -6,7 +6,6 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Autocomplete } from '@material-ui/lab';
 import { AppBar, Toolbar, IconButton, Button } from "@material-ui/core"
-import Image from "../tree.png";
 import { Home } from "@material-ui/icons"
 import { Link as RouterLink } from "react-router-dom";
 import Popper from '@material-ui/core/Popper';
