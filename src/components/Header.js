@@ -1,10 +1,6 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import { Autocomplete } from '@material-ui/lab';
 import { AppBar, Toolbar, IconButton, Button } from "@material-ui/core"
 import { Home } from "@material-ui/icons"
 import { Link as RouterLink } from "react-router-dom";
@@ -129,7 +125,7 @@ export default function Header(props) {
                           </MenuItem>
                           <MenuItem
                             component={RouterLink}
-                            to={'/upload'}
+                            to={'/selecttype'}
                             onClick={handleClose}
                           >
                             Admin
@@ -179,19 +175,6 @@ export default function Header(props) {
           </Button>
           }
         </Toolbar>
-        {/* <div className={classes.root}>
-          <Card className={classes.title}>
-            <CardContent>
-                <Typography variant="h3" component="h1">
-                14 Trees Foundation
-                </Typography>
-                <Typography variant="h5" component="h4">
-                14 Trees Foundation is a charitable organization dedicated to building sustainable, carbon-footprint-neutral eco-systems through re-forestation.
-                </Typography>
-            </CardContent>
-          </Card>
-          {/* </Paper> */}
-        {/* </div> */}
       </AppBar>
     )
 }
