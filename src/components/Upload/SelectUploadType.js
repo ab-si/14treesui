@@ -86,7 +86,7 @@ export default function SelectUploadType() {
                     </CardActions>
                     <CardContent className={classes.content}>
                         <Typography gutterBottom variant="h5" component="h2">
-                            Use this tool to fill form
+                            Use this tool to fill tree data
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
                             14 Trees Foundation is a charitable organization

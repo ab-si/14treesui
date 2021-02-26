@@ -9,7 +9,6 @@ import MuiAlert from '@material-ui/lab/Alert';
 
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
 import Backdrop from '@material-ui/core/Backdrop';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -19,6 +18,7 @@ import { Button, Paper, Typography, Avatar } from '@material-ui/core';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 
 import api from '../../api/local';
+import UseStyle from './style'
 import tree from '../tree1.jpg'
 
 function Alert(props) {
@@ -47,61 +47,10 @@ const intitialFValues = {
     backdropOpen:false,
 }
 
-const useStyle = makeStyles(theme => ({
-    root: {
-        '& .MuiFormControl-root':{
-            width: '80%',
-            margin: theme.spacing(1),
-        }
-    },
-    successRoot: {
-        margin: 'auto',
-        marginTop:'5%',
-        width: 350,
-    },
-    media: {
-        height: '280px',
-        paddingTop: '56.25%',
-    },
-    paper: {
-        margin: theme.spacing(5),
-        padding: theme.spacing(3),
-    },
-    info:{
-        justifyContent:'center',
-        margin: 'auto'
-    },
-    infoHeading: {
-        fontWeight: 200
-    },
-    infoDetail: {
-        fontWeight: 100
-    },
-    input: {
-        display: 'none',
-    },
-    helper: {
-        width:'80%',
-        margin:'auto'
-    },
-    caption:{
-
-    },
-    images:{
-        display:'flex',
-        justifyContent:'center'
-    },
-    backdrop: {
-        zIndex: theme.zIndex.drawer + 1,
-        color: '#fff',
-    },
-})
-);
-
 export default function VisitorForm({newForm}) {
     const [values, setValues] = useState(intitialFValues);
     const [errors, setErrors] = useState({});
-    const classes = useStyle();
+    const classes = UseStyle();
     const PROFILE_IMG_MAX=2;
     const ADDITIONAL_IMG_MAX=10;
 
@@ -117,7 +66,6 @@ export default function VisitorForm({newForm}) {
         setErrors({
             ...temp
         })
-
         return Object.values(temp).every(x => x === "")
     }
 

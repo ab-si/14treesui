@@ -23,29 +23,22 @@ class Search extends React.Component {
         searchSize: 10,
         currentResultListPage: 1,
         type:'',
-        token: '',
     }
 
     componentDidMount() {
         this.updateWindowDimensions();
         this.setState({
-            token: this.props.token
-        })
-        console.log(this.props)
-      }
-
-    onCountSearchSubmit = async (term) => {
-        console.log(term)
-        const res = await api.get('/api/v1/search/getcount', {
-            params: { term : term },
-        });
-
-        this.setState({
-            term: term,
-            searchCountResult: res.data.data
+            term: this.props.term,
+            searchCountResult: this.props.data
         })
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            term: nextProps.term,
+            searchCountResult: nextProps.data
+        });  
+    }
     fetchData = async (type) => {
         let selectedType = type + "_count";
         let params = {
@@ -103,7 +96,6 @@ class Search extends React.Component {
 
         return (
             <div className="ui fluid container">
-                <SearchBar onSubmit={this.onCountSearchSubmit}/>
                 {searchCount}
                 <DataDisplay data={this.state.searchResult} type={this.state.type}/>
             </div>

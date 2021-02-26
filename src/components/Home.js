@@ -3,13 +3,14 @@ import Header from './Header'
 import { makeStyles } from '@material-ui/core/styles';
 import PrivateRoute from './PrivateRoute';
 import React, { useState, useEffect } from 'react';
-import Search from './Search/Search';
 import App from './App';
 import { AuthContext } from "./context/auth";
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { CssBaseline } from "@material-ui/core"
 import VisitorForm from './Upload/VisitorForm';
-import UploadData from './Upload/UploadData'
+import UploadCsv from './Upload/UploadCsv'
+import UploadTree from './Upload/UploadTree'
+import SelectSearch from './Search/SelectSearch';
 import SelectUploadType from './Upload/SelectUploadType';
 
 import api from '../api/local';
@@ -40,7 +41,6 @@ export default function Home(props) {
     const existingTokens = localStorage.getItem("token");
     const [authTokens, setAuthTokens] = useState(existingTokens);
     let [isLoggedIn, setIsLoggedIn] = useState(false);
-    console.log(authTokens)
 
     const verifyToken = async () => {
         try {
@@ -49,7 +49,6 @@ export default function Home(props) {
                     'x-access-token': authTokens 
                   }
             });
-            console.log(res)
             if (res.status===200){
                 setIsLoggedIn(true);
             }
@@ -85,8 +84,9 @@ export default function Home(props) {
                     <Route exact path="/" component={App} />
                     <Route exact path="/visitorform" component={VisitorForm}/>
                     <PrivateRoute exact path="/selecttype" component={SelectUploadType} />
-                    <PrivateRoute exact path="/upload" component={UploadData} />
-                    <Route exact path="/search" component={Search} />
+                    <PrivateRoute exact path="/upload" component={UploadCsv} />
+                    <PrivateRoute exact path="/uploadtree" component={UploadTree} />
+                    <Route exact path="/search" component={SelectSearch} />
                     <Route exact path="/login" component={Login} />
                 </div>
             </div>

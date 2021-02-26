@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
@@ -9,25 +8,19 @@ import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: '2px 4px',
     display: 'flex',
     alignItems: 'center',
-    width: '40vw',
-    marginTop: 10,
-    marginBottom: 15,
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    width: '35vw',
+    marginRight: '5vw',
+    marginLeft: '5vw',
   },
   input: {
-    marginLeft: theme.spacing(1),
+    marginLeft: theme.spacing(3),
     flex: 1,
+    height: 50,
   },
   iconButton: {
     padding: 10,
-  },
-  divider: {
-    height: 28,
-    margin: 4,
   },
 }));
 
@@ -46,16 +39,11 @@ export default function SearchBar(props) {
     const classes = useStyles();
 
     return (
-        <div className="search-bar ui raised center" style={{'marginLeft':'auto'}}>
-            {/* <form className={classes.root} noValidate autoComplete="off" onSubmit={onFormSubmit}>
-                <TextField id="outlined-basic" value={value} label="Search for a Tree/Person" variant="outlined" onChange={handleChange}/>
-            </form> */}
-            {/* 'root' | 'absolute' | 'inset' | 'light' | 'middle' | 'vertical'; */}
-            <Paper component="form" className={classes.root}>
+        // <div className="search-bar ui raised center">
+            <Paper className={classes.root}>
               <InputBase
                 className={classes.input}
-                placeholder="Search for a Tree/Person"
-                inputProps={{ 'aria-label': 'Search for a Tree/Person' }}
+                placeholder={props.text}
                 value={value}
                 onChange={handleChange}
               />
@@ -63,7 +51,6 @@ export default function SearchBar(props) {
                 <SearchIcon />
               </IconButton>
             </Paper>
-            <Divider variant="middle"/>
-        </div>
+        // </div>
     )
 }

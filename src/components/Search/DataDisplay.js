@@ -8,6 +8,7 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
+import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,6 +39,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const colortheme = createMuiTheme({
+  palette: {
+    secondary: { main: "#ffcc5f", contrastText: "#000" },
+    primary: { main: "#3F3F3F", contrastText: "#000" }
+  }
+});
+
 export default function DataDisplay(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
@@ -67,7 +75,7 @@ export default function DataDisplay(props) {
               // expandIcon={<ExpandMoreIcon />}
             >
               {name}
-              <Typography className={classes.data}>{e.sapling_id}</Typography>
+              <Typography color="error" className={classes.data}>{e.sapling_id}</Typography>
               <Typography className={classes.data}>{e.loc_name}</Typography>
               <Typography className={classes.data}>{e.date}</Typography>
               <Typography className={classes.data}>{e.event_name}</Typography>
@@ -78,13 +86,13 @@ export default function DataDisplay(props) {
                 avatar={
                   <Avatar alt="Remy Sharp" src="" />
                 }
-                title="Some Data"
-                subheader="Some More Data"
+                title="Tree Information"
+                subheader="Learn more about the tree"
               />
               </Card>
               <Card style={{"minWidth": 100}}>
               <CardHeader
-                title="Some Images here"
+                title="Profile Images"
                 avatar={
                   <AvatarGroup max={4}>
                     <Avatar alt="Remy Sharp" src="" />
@@ -103,21 +111,22 @@ export default function DataDisplay(props) {
   }
 
   return (
-    <div className={classes.root}>
-      <Accordion style={{'backgroundColor':'#99cc00'}}>
-        <AccordionSummary
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
-          disabled
-        >
-          <Typography className={classes.heading}>Name</Typography>
-          <Typography className={classes.heading}>Tree number</Typography>
-          <Typography className={classes.heading}>Location</Typography>
-          <Typography className={classes.heading}>Plantation Date</Typography>
-          <Typography className={classes.heading}>Event Name</Typography>
-        </AccordionSummary>
-      </Accordion>
-      {dataDisplay()}
-    </div>
+    <ThemeProvider theme={colortheme}>
+      <div className={classes.root}>
+        <Accordion style={{'backgroundColor':'#ffcc5f'}}>
+          <AccordionSummary
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
+          >
+            <Typography color="primary" className={classes.heading}>Name</Typography>
+            <Typography color="primary" className={classes.heading}>Tree number</Typography>
+            <Typography color="primary" className={classes.heading}>Location</Typography>
+            <Typography color="primary" className={classes.heading}>Plantation Date</Typography>
+            <Typography color="primary" className={classes.heading}>Event Name</Typography>
+          </AccordionSummary>
+        </Accordion>
+        {dataDisplay()}
+      </div>
+    </ThemeProvider>
   );
 }
