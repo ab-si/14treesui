@@ -14,6 +14,7 @@ import SelectSearch from './Search/SelectSearch';
 import SelectUploadType from './Upload/SelectUploadType';
 
 import api from '../api/local';
+import ProfilePage from './profile';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -82,6 +83,7 @@ export default function Home(props) {
                 <Header isLoggedIn={isLoggedIn} removeTokens={removeTokens}/>
                 <div>
                     <Route exact path="/" component={App} />
+                    <Route path="/profile/:id" component={ProfilePage}></Route>
                     <Route exact path="/visitorform" component={VisitorForm}/>
                     <PrivateRoute exact path="/selecttype" component={SelectUploadType} />
                     <PrivateRoute exact path="/upload" component={UploadCsv} />
