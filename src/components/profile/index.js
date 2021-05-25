@@ -4,6 +4,7 @@ import UserProfilePage from "../userProfilePage";
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+// import { Fullscreen } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,7 +23,7 @@ const ProfilePage = () => {
 
   return <div className={classes.root}>
     <Grid container spacing={2}>
-      <Grid item xs={6}>
+      <Grid style={{ padding: "60px" }} item xs={6} height="50%" >
           <Paper className={classes.paper}>
             <UserProfilePage></UserProfilePage>
           </Paper>

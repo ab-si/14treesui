@@ -1,8 +1,10 @@
 import React from "react";
+import ProfileDescription from "./profileDescription";
 
 const UserProfilePage = () => {
-  return <div>
-    Welcome to user profile page!!
+  return <div className="profile-content">
+    <ProfileDescription></ProfileDescription>
+    {/* <TreesAndMemories></TreesAndMemories> */}
   </div>
 }
 
