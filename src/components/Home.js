@@ -43,26 +43,26 @@ export default function Home(props) {
     const [authTokens, setAuthTokens] = useState(existingTokens);
     let [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const verifyToken = async () => {
-        try {
-            let res = await api.post('/api/v1/login/verifytoken', {}, {
-                headers: {
-                    'x-access-token': authTokens 
-                  }
-            });
-            if (res.status===200){
-                setIsLoggedIn(true);
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    // const verifyToken = async () => {
+    //     try {
+    //         let res = await api.post('/api/v1/login/verifytoken', {}, {
+    //             headers: {
+    //                 'x-access-token': authTokens 
+    //               }
+    //         });
+    //         if (res.status===200){
+    //             setIsLoggedIn(true);
+    //         }
+    //     } catch (error) {
+    //         setIsLoggedIn(true);
+    //     }
+    // }
 
-    useEffect(() => {
-        if (authTokens !== null || authTokens !== undefined) {
-            verifyToken();
-        }
-    });
+    // useEffect(() => {
+    //     if (authTokens !== null || authTokens !== undefined) {
+    //         verifyToken();
+    //     }
+    // });
 
     const setTokens = (data) => {
         localStorage.setItem("token", data);
@@ -83,7 +83,7 @@ export default function Home(props) {
                 <Header isLoggedIn={isLoggedIn} removeTokens={removeTokens}/>
                 <div>
                     <Route exact path="/" component={App} />
-                    <Route path="/profile/:id" component={ProfilePage}></Route>
+                    <Route path="/profile/:saplingId" component={ProfilePage}></Route>
                     <Route exact path="/visitorform" component={VisitorForm}/>
                     <PrivateRoute exact path="/selecttype" component={SelectUploadType} />
                     <PrivateRoute exact path="/upload" component={UploadCsv} />

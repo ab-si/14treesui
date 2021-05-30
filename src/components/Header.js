@@ -2,7 +2,7 @@ import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, IconButton, Button } from "@material-ui/core"
-import { Home } from "@material-ui/icons"
+import { Home, Public } from "@material-ui/icons"
 import { Link as RouterLink } from "react-router-dom";
 import Popper from '@material-ui/core/Popper';
 import Grow from '@material-ui/core/Grow';
@@ -19,7 +19,9 @@ const useStyles = makeStyles({
       marginBottom: 18,
     },
     appBar: {
-      background: '#3f3f3f',
+      background: '#ffff',
+      boxShadow: "none",
+      borderBottom: "1px solid #1F3625"
     },
     pos: {
       marginBottom: 12,
@@ -36,8 +38,19 @@ const useStyles = makeStyles({
       color:"#ffffff"
     },
     toolbar: {
-      display: "flex",
-      justifyContent: "center",
+      display: "inline-block",
+      float: "right",
+      justifyContent: "right",
+    },
+    title: {
+      display: "inline-block",
+      float: "left",
+      color: "#1F3625",
+      fontSize: "36px",
+      fontWeight: 700,
+      fontStyle: "normal",
+      position: "relative",
+      top: "30px"
     }
 
   });
@@ -77,103 +90,16 @@ export default function Header(props) {
       // <Paper className={classes.root} elevation={3}>
       <AppBar position="static" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
+          <div className={classes.title}>Realtime Impact Dashboard</div>
+          <div className={classes.toolbar}>
           <IconButton
-            edge="start" color="inherit" aria-label="home" style={{'marginRight':'auto'}}
+            edge="end" color="inherit" aria-label="home" style={{'marginRight':'auto'}}
             component={RouterLink}
             to={'/'}
           >
-            <Home fontSize="large" />
+            <img ALT="14trees" src={`${process.env.PUBLIC_URL}/14trees.svg`} ></img>;
           </IconButton>
-          <div>
-              <Button
-                className={classes.menuButton}
-                ref={anchorRef}
-                aria-controls={open ? 'menu-list-grow' : undefined}
-                aria-haspopup="true"
-                onClick={handleToggle}
-              >
-                Upload
-              </Button>
-              <Popper
-                open={open}
-                anchorEl={anchorRef.current}
-                role={undefined}
-                transition
-                disablePortal
-              >
-                {({ TransitionProps, placement }) => (
-                  <Grow
-                    {...TransitionProps}
-                    style={{
-                      transformOrigin:
-                        placement === 'bottom' ? 'center top' : 'center bottom',
-                    }}
-                  >
-                    <Paper>
-                      <ClickAwayListener onClickAway={handleClose}>
-                        <MenuList
-                          autoFocusItem={open}
-                          id="menu-list-grow"
-                          onKeyDown={handleListKeyDown}
-                        >
-                          <MenuItem
-                            component={RouterLink}
-                            to={'/visitorform'}
-                            onClick={handleClose}
-                          >
-                            Visitor
-                          </MenuItem>
-                          <MenuItem
-                            component={RouterLink}
-                            to={'/selecttype'}
-                            onClick={handleClose}
-                          >
-                            Admin
-                          </MenuItem>
-                        </MenuList>
-                      </ClickAwayListener>
-                    </Paper>
-                  </Grow>
-                )}
-              </Popper>
-            </div>
-          {/* <Button
-            className={classes.menuButton}
-            component={RouterLink}
-            to={'/upload'}
-            >
-              Upload
-          </Button> */}
-          <Button
-            className={classes.menuButton}
-            component={RouterLink}
-            to={'/search'}
-            >
-              Search
-          </Button>
-        { props.isLoggedIn && 
-          <Button
-            className={classes.menuButton}
-            color='secondary'
-            variant="contained"
-            onClick={() => props.removeTokens()}
-            component={RouterLink}
-            to={'/login'}
-            >
-              Log Out
-          </Button>
-        }
-        { !props.isLoggedIn && 
-          <Button
-            className={classes.menuButton}
-            color='primary'
-            variant="contained"
-            component={RouterLink}
-            to={'/login'}
-            >
-              Log In
-          </Button>
-          }
+      </div>
         </Toolbar>
       </AppBar>
     )
