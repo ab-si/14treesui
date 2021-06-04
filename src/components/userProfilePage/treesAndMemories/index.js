@@ -83,15 +83,6 @@ const renderMemories = (classes) => {
  const renderTrees = () => {
   return treesPlanted.map((treePlanted) => {
     return <>
-    <Grid item height="100%" style={{ marginRight: "15px"}} >
-    <Card className={classes.rectangleTree}>
-      <CardMedia 
-      className={classes.media}
-      image={treePlanted.image}
-      title="tree image"
-      ></CardMedia>
-    </Card>
-  </Grid>
   <Grid item height="100%" >
     <Card className={classes.rectangleTree}>
       <CardMedia 

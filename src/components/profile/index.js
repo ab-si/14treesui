@@ -28,18 +28,51 @@ const ProfilePage = () => {
     organisation: "",
     profileImage: ""
   });
+  const [overallData, setOverallData] = useState({
+    ponds: {
+      count: 0,
+      text: "Ponds created systematically to increase the water table"
+    },
+    peopleEmployed: {
+      count: 0,
+      text: "People employed from local Thakar Tribal Community"
+    },
+    totalPlanted: {
+      count: 0,
+      totalCount: 100000
+    }
+  })
   const { saplingId } = useParams();
 
   useEffect(() => {
     async function fetchData() {
 
       const response = await Axios.default.get(`/api/v1/profile?id=${saplingId}`);
-      console.log("response...", response);
       if(response.status === 200) {
         setSaplingData(response.data);
       }
     }
     fetchData();
+
+    async function fetchTreeOverall() {
+        const overallResponse = await Axios.default.get(`/api/v1/analytics/totaltree`);
+        setOverallData({
+          ponds: {
+            count: 190,
+            text: "Ponds created systematically to increase the water table"
+          },
+          peopleEmployed: {
+            count: "100+",
+            text: "People employed from local Thakar Tribal Community"
+          },
+          totalPlanted: {
+            count: overallResponse ? overallResponse[0]?.count : 0,
+            totalCount: 100000
+          }
+        })
+        console.log("overall response...", overallResponse);
+    }
+    fetchTreeOverall();
     
   }, [saplingId]);
 
@@ -50,9 +83,9 @@ const ProfilePage = () => {
             <UserProfilePage saplingData={saplingData}></UserProfilePage>
           </Paper>
       </Grid>
-      <Grid item xs={6}>
+      <Grid style={{ padding: "60px" }} item xs={6} height="50%">
           <Paper className={classes.paper}>
-            <OverallImpactPage></OverallImpactPage>
+            <OverallImpactPage overallData={overallData}></OverallImpactPage>
           </Paper>
       </Grid>
     </Grid>
