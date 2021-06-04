@@ -48,7 +48,7 @@ const OverallImpactPage = ({ overallData }) => {
       </Card>
       <div style={{ marginLeft: "50px", marginTop: "45px", width: "30%", position: "relative", right: "30px"  }}>
         <span style={{ float: "left", fontSize: "14px", color: "black"}}>Trees planted till date.</span><br />
-        <span style={{ fontSize: "31px", color: "#9BC53D", fontWeight: "700", float: "left", width: "100%"}}>20,560/100,000</span>
+        <span style={{ fontSize: "29px", color: "#9BC53D", fontWeight: "700", float: "left", width: "100%"}}>20,560/100,000</span>
         <span style={{ marginTop: "20px" }}><LinearProgressWithLabel value={40} /></span>
       </div>
     </div>
