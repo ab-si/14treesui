@@ -1,7 +1,7 @@
 import { Card } from "@material-ui/core";
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { CardBody, CardFooter } from "reactstrap";
+import { CardBody, CardFooter, CardText } from "reactstrap";
 import LinearProgressWithLabel from "../linearProgressBar";
 import SiteMap from "../siteMap";
 
@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     clear: "both",
   },
   card: {
-    width: "214px",
+    width: "50%",
     height: "185px",
   },
   count: {
@@ -32,23 +32,23 @@ const OverallImpactPage = ({ overallData }) => {
     <div style={{ display: "flex", marginTop: "20px", width: "100%", clear: "both"}}>
       <Card className={classes.card}>
         <CardBody style={{ height: "50%"}}>
-          <span className={classes.count}>{overallData.ponds.count}</span>
+          <CardText className={classes.count}>{overallData.ponds.count}</CardText>
         </CardBody>
         <CardFooter className={classes.cardFooter}>
-          <span>{overallData.ponds.text}</span>
+          <CardText>{overallData.ponds.text}</CardText>
         </CardFooter>
       </Card>
       <Card className={classes.card} style={{ marginLeft: "20px" }}>
         <CardBody style={{ height: "50%"}}>
-          <span className={classes.count}>{overallData.peopleEmployed.count}</span>
+          <CardText className={classes.count}>{overallData.peopleEmployed.count}</CardText>
         </CardBody>
         <CardFooter className={classes.cardFooter}>
-          <span>{overallData.peopleEmployed.text}</span>
+          <CardText>{overallData.peopleEmployed.text}</CardText>
         </CardFooter>
       </Card>
-      <div style={{ marginLeft: "50px", marginTop: "45px" }}>
+      <div style={{ marginLeft: "50px", marginTop: "45px", width: "30%", position: "relative", right: "30px"  }}>
         <span style={{ float: "left", fontSize: "14px", color: "black"}}>Trees planted till date.</span><br />
-        <span style={{ fontSize: "40px", color: "#9BC53D", fontWeight: "700", float: "left" }}>20,560/100,000</span>
+        <span style={{ fontSize: "31px", color: "#9BC53D", fontWeight: "700", float: "left", width: "100%"}}>20,560/100,000</span>
         <span style={{ marginTop: "20px" }}><LinearProgressWithLabel value={40} /></span>
       </div>
     </div>
