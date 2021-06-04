@@ -1,8 +1,9 @@
-import { Card, LinearProgress } from "@material-ui/core";
+import { Card } from "@material-ui/core";
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { CardBody, CardFooter } from "reactstrap";
 import LinearProgressWithLabel from "../linearProgressBar";
+import SiteMap from "../siteMap";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +29,7 @@ const OverallImpactPage = ({ overallData }) => {
   const classes = useStyles();
   return <div className={classes.root}>
     <span style={{ display: "flex", fontWeight: "700", fontSize: "24px", color: "#1F3625"}}>Overall Impact</span>
-    <div style={{ display: "flex", marginTop: "20px", width: "100%"}}>
+    <div style={{ display: "flex", marginTop: "20px", width: "100%", clear: "both"}}>
       <Card className={classes.card}>
         <CardBody style={{ height: "50%"}}>
           <span className={classes.count}>{overallData.ponds.count}</span>

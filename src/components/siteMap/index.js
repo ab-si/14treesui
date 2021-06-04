@@ -3,7 +3,7 @@ import {Map, Polygon, GoogleApiWrapper} from 'google-maps-react';
 
 const mapStyles = {
     width: '100%',
-    height: '100%'
+    height: '50%'
 };
 const triangleCoords = [
     {lat: 18.92388548178382, lng: 73.77198156977873},
@@ -23,7 +23,7 @@ const triangleCoords = [
     {lat: 18.92388548178382, lng: 73.77198156977873}
 ];
 const coords = { lat: 18.92600070324609, lng: 73.7733361321322 };
-export class App extends Component {
+class SiteMap extends Component {
     
     render() {
       return (
@@ -45,6 +45,8 @@ export class App extends Component {
     }
   }
   
-export default GoogleApiWrapper({
+SiteMap = GoogleApiWrapper({
     apiKey: 'AIzaSyBUz3z2_uM7TXu2k4BAetY9HJ8vahAYFLQ'
-})(App);
+})(SiteMap);
+
+export default SiteMap;

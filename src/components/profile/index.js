@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import axios from "axios";
 import { useParams } from "react-router";
 import * as Axios from "../../api/local";
+import SiteMap from "../siteMap";
 // import { Fullscreen } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -87,6 +88,10 @@ const ProfilePage = () => {
           <Paper className={classes.paper}>
             <OverallImpactPage overallData={overallData}></OverallImpactPage>
           </Paper>
+          <div style={{ display: "block"}}>
+      <br />
+      <SiteMap></SiteMap>
+    </div>
       </Grid>
     </Grid>
   </div>
