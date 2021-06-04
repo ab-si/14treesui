@@ -53,7 +53,7 @@ const ProfileDescription = ({ profileInfo }) => {
   const classes = useStyles();
   console.log("profileinfo...", profileInfo);
   return <Grid container spacing={2} className="grid123">
-    <Grid item xs={6} height="100%" >
+    <Grid item xs={4} height="100%" >
       <Card className={classes.root}>
         <CardMedia 
         className={classes.media}

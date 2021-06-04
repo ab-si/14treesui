@@ -43,15 +43,6 @@ const ProfilePage = () => {
     
   }, [saplingId]);
 
-  // useEffect(() => {
-  //   axios.get(`http://localhost:7000/api/v1/profile?id=${saplingId}`, {
-  //     withCredentials: true
-  //   })
-  //   .then((response) => {
-  //     console.log("response...", response);
-  //   })
-  // }, [saplingId]);
-
   return <div className={classes.root}>
     <Grid container spacing={2}>
       <Grid style={{ padding: "60px" }} item xs={6} height="50%" >

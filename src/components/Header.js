@@ -90,7 +90,9 @@ export default function Header(props) {
       // <Paper className={classes.root} elevation={3}>
       <AppBar position="static" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
-          <div className={classes.title}>Realtime Impact Dashboard</div>
+          <div className={classes.title}>Realtime Impact Dashboard
+          <span style={{ marginLeft: "20px" }}><img src={`${process.env.PUBLIC_URL}/dashboard.png`}></img></span>
+          </div>
           <div className={classes.toolbar}>
           <IconButton
             edge="end" color="inherit" aria-label="home" style={{'marginRight':'auto'}}

@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
   memoryContainerHeight: {
     height: "auto",
-    paddingLeft: "52px !important",
+    paddingRight: "52px !important",
     paddingTop: "25px !important"
   },
   flex: {
@@ -67,10 +67,7 @@ const TreesAndMemories = (props) => {
   }, [props.trees]);
 
 const renderMemories = (classes) => {
-  console.log("tree memories...", treeMemories);
-  console.log("tree planted...", treesPlanted);
   return treeMemories.length && treeMemories[0].map((treeMemory) => {
-    console.log("tree memory...", treeMemory);
     return <Grid item className={classes.memoryContainerHeight}>
     <Card className={classes.rectangleMemories}>
       <CardMedia
@@ -85,7 +82,8 @@ const renderMemories = (classes) => {
 
  const renderTrees = () => {
   return treesPlanted.map((treePlanted) => {
-    return <Grid item height="100%" >
+    return <>
+    <Grid item height="100%" style={{ marginRight: "15px"}} >
     <Card className={classes.rectangleTree}>
       <CardMedia 
       className={classes.media}
@@ -94,16 +92,26 @@ const renderMemories = (classes) => {
       ></CardMedia>
     </Card>
   </Grid>
+  <Grid item height="100%" >
+    <Card className={classes.rectangleTree}>
+      <CardMedia 
+      className={classes.media}
+      image={treePlanted.image}
+      title="tree image"
+      ></CardMedia>
+    </Card>
+  </Grid>
+  </>
   })
  };
 
   return <>
   <div style={{ display: "flex" }}>
-  <Grid xs={6} style={{ display: "flex", marginTop: "26px", fontWeight: "700", fontSize: "24px" }}>Trees Planted</Grid>
+  <Grid xs={5} style={{ display: "flex", marginTop: "26px", fontWeight: "700", fontSize: "24px" }}>Trees Planted</Grid>
   <Grid xs={6} style={{ display: "flex", marginTop: "26px", fontWeight: "700", fontSize: "24px" }}>Memories</Grid>
   </div>
   <Grid container style={{ marginTop: "20px"}}>
-  <Grid spacing={2} xs={6} className={classes.flex} id="grid123">
+  <Grid spacing={2} xs={5} className={classes.flex} id="grid123">
     {renderTrees()}
     </Grid>
     <Grid spacing={2} xs={6} className={classes.flexWrap} id="grid123">
